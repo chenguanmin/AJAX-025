@@ -1,0 +1,69 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@section Stytles
+{
+    <style>
+        h1 {
+            background-color:red;
+        }
+        table,tr{
+            border:red 2px dashed
+        }
+    </style>
+
+ }
+
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <input type="button" value="click"  id="click"/>
+</div>
+
+
+<div>
+    <table id="tb" align="center">
+        <tr>
+            <th>姓名</th>
+            <th>年資</th>
+            <th>薪資</th>
+        </tr>
+    </table>
+</div>
+
+@section Scripts {
+<script>
+
+    var emp = {
+        "employees": [
+            { "name": "Tom", "workYears": 3, "salary": 35000 },
+            { "name": "Jack", "workYears": 5, "salary": 40000 },
+            { "name": "Mary", "workYears": 7, "salary": 45000 }
+        ]
+    };
+    for (let ep of emp.employees)
+    {
+        $("#tb").append(`<tr><td>${ep.name}</td><td>${ep.workYears}</td><td>${ep.salary}</td></tr>`)
+    }
+    //$("#click").on("click", function () {
+    //    var emp = {
+    //        "employees": [
+    //            { "name": "Tom", "workYears": 3, "salary": 35000 },
+    //            { "name": "Jack", "workYears": 5, "salary": 40000 },
+    //            { "name": "Mary", "workYears": 7, "salary": 45000 }
+    //        ]
+    //    };
+
+
+    //    for (let i = 0, max = emp.employees.length; i < max; i++)
+    //    {
+    //        console.log(emp.employees[i].name);
+    //        console.log(emp.employees[i].workYears);
+    //        console.log(emp.employees[i].salary);
+    //    }        
+    //})
+
+</script>
+}

@@ -22,10 +22,10 @@ namespace AJAX_025.Controllers
 
             if (string.IsNullOrEmpty(user.name))
             {
-              user.name= "Ajax";
+                user.name = "Ajax";
             }
             return Content($"{user.name}你好 你的年紀是{user.age}", "text/html", System.Text.Encoding.UTF8);
-            
+
         }
 
         public IActionResult FirstAjax()
@@ -48,7 +48,7 @@ namespace AJAX_025.Controllers
             var result = from m in _demo.Members
                          where m.Name == name
                          select m.Name;
-            if (result.Count()>0)
+            if (result.Count() > 0)
             {
                 return true;
             }

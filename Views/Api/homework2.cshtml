@@ -1,0 +1,99 @@
+﻿
+
+@{
+    ViewData["Title"] = "AjaxRegister";
+}
+
+
+
+<h1>homework2 註冊姓名</h1>
+<div class="row">
+    <div class="col-3"></div>
+    <div class="col-6">
+        <form method="post" enctype="application/x-www-form-urlencoded" name="userInfo">
+            <div class="form-group">
+                <label for="InputName">姓名 </label>
+                <input type="text" class="form-control" id="InputName" name="name">
+                <small id="namehelp" class="form-text text-muted">123</small>
+            </div>
+            <div class="form-group">
+                <label for="InputEmail">電子郵件</label>
+                <input type="text" class="form-control" id="InputEmail" name="email">
+            </div>
+            <div class="form-group">
+                <label for="InputEmail">年紀</label>
+                <input type="number" class="form-control" id="InputAge" name="age">
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+        </form>
+        <div class="alert alert-info" id="div1"></div>
+    </div>
+    <div class="col-3"></div>
+</div>
+
+
+
+
+
+
+
+@section Scripts
+{
+    <script>
+        const btnstart = document.querySelector(".btn");
+        const divInfo = document.querySelector('#div1');
+        const txtname = document.querySelector("#InputName");
+        const namehelp = document.querySelector("#namehelp");
+
+
+    txtname.addEventListener('blur', () => {
+
+        const formdata = new FormData(document.userInfo);
+        //step1
+        const xhr = new XMLHttpRequest();
+        //step3
+
+        xhr.addEventListener('load', () => {
+
+        const data = xhr.responseText;
+        console.log(data);
+
+        if (data == "true") { namehelp.innerHTML = "不能使用" };
+        if (data == "false") { namehelp.innerHTML = "用吧" };
+        /*namehelp.innerHTML = `${data}`;*/
+        })
+
+        //step2
+        xhr.open("post", `@Url.Content("~/api/hasexit")`);
+        xhr.send(formdata);
+    })
+
+    btnstart.addEventListener('click', (evt) => {
+        evt.preventDefault();
+
+        const formdata = new FormData(document.userInfo);
+        //step1
+        const xhr = new XMLHttpRequest();
+
+        xhr.addEventListener('load', () => {
+            //step3
+            const data = xhr.responseText;
+            //顯示資料
+            divInfo.innerHTML = `<h3>${data}</h3>`;
+        })      
+
+
+        //step2
+        xhr.open("post", `@Url.Content("~/api/index")`);
+        xhr.send(formdata);
+
+    })
+
+
+
+
+
+    </script>
+
+}

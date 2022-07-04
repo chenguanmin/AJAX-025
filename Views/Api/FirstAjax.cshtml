@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewData["Title"] = "FirstAjax";
+}
+
+
+<h1>FirstAjax</h1>
+姓名
+<input type="text" id="txtname" />
+年齡
+<input type="text" id="txtage" />
+
+<button type="button" class="btn btn-primary mb-3" id="buttonStart">Ajax Start</button>
+<button type="button" class="btn btn-primary mb-3" id="buttonStop">Ajax Stop</button>
+<div id="div1" class="alert alert-secondary"></div>
+
+
+
+@section Scripts
+{
+    <script>
+        const btnstart = document.querySelector("#buttonStart");
+        const btnStop = document.querySelector('#buttonStop');
+       const divInfo = document.querySelector("#div1");
+       const name = document.querySelector("#txtname");
+       const age = document.querySelector("#txtage");
+
+
+       btnstart.addEventListener('click', () => {
+           //步驟一 建立ajax
+           const xhr = new XMLHttpRequest();
+
+           //步驟三在load事件中接收資料
+           //當伺服器回傳結果完成後就會觸發load事件
+           xhr.addEventListener('load', () => {
+               //資料接收
+               const data = xhr.responseText;
+               //顯示資料
+               divInfo.innerHTML = `<h2>${data}</h2>`;
+               console.log("load");
+           })
+
+           xhr.addEventListener('loadstart', () => {
+               console.log("loadstart");
+               btnstart.textContent="loading....";
+               btnstart.setAttribute('disabled','disabled');
+
+           })
+
+           xhr.addEventListener('loadend', () => {
+               console.log("loadend");
+               btnstart.removeAttribute("disabled");
+               btnstart.textContent="Ajax Start";
+           })
+
+           xhr.addEventListener('timeout', () => {
+               console.log('timeout');
+               divInfo.innerHTML = "<h3>伺服器忙碌中請稍後再來</h3>"
+           })
+           xhr.addEventListener('abort', () => {
+               console.log('abort');
+               divInfo.innerHTML = "<h3>您終止了程式的執行</h3>"
+           })
+
+           //console.log(name);
+           //步驟二 對伺服器端發出要求(Request)
+       /*xhr.open("Get", `/api/index?name=${name.value}&age=${age.value}`);*/
+
+           const url = "@Url.Content("~/api/index")";
+           const params = `?name=${name.value}&age=${age.value}`
+           xhr.open("Get", url + params);
+           xhr.timeout = 2000;
+           xhr.send();
+
+       })
+
+    </script>
+
+
+
+}

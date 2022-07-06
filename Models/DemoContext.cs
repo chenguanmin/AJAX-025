@@ -37,7 +37,7 @@ namespace AJAX_025.Models
             {
                 entity.ToTable("Address");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.City)
                     .HasMaxLength(10)
@@ -54,7 +54,7 @@ namespace AJAX_025.Models
 
             modelBuilder.Entity<Member>(entity =>
             {
-                entity.Property(e => e.MemberId).ValueGeneratedNever();
+                entity.Property(e => e.MemberId).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.Email).HasMaxLength(200);
 

@@ -14,18 +14,24 @@
             <div class="form-group">
                 <label for="InputName">姓名 </label>
                 <input type="text" class="form-control" id="InputName" name="name">
-                <small id="namehelp" class="form-text text-muted">123</small>
+                <small id="namehelp" class="form-text text-muted" style="color:orange" >請輸入姓名</small>
             </div>
             <div class="form-group">
                 <label for="InputEmail">電子郵件</label>
                 <input type="text" class="form-control" id="InputEmail" name="email">
             </div>
             <div class="form-group">
-                <label for="InputEmail">年紀</label>
+                <label for="InputAge">年紀</label>
                 <input type="number" class="form-control" id="InputAge" name="age">
             </div>
-
+            <br />         
+            <div class="form-group">
+                <label for="exampleFormControlFile1">請選擇檔案</label>
+                <input type="file" class="form-control-file" id="exampleFormControlFile1" name="file">
+            </div>
+            
             <button type="submit" class="btn btn-primary mt-3">Submit</button>
+
         </form>
         <div class="alert alert-info" id="div1"></div>
     </div>
@@ -46,7 +52,7 @@
         const txtname = document.querySelector("#InputName");
         const namehelp = document.querySelector("#namehelp");
 
-
+     //判斷姓名
     txtname.addEventListener('blur', () => {
 
         const formdata = new FormData(document.userInfo);
@@ -59,8 +65,8 @@
         const data = xhr.responseText;
         console.log(data);
 
-        if (data == "true") { namehelp.innerHTML = "不能使用" };
-        if (data == "false") { namehelp.innerHTML = "用吧" };
+        if (data === "true") { namehelp.innerHTML = "此姓名已被人使用!" };
+        if (data === "false") { namehelp.innerHTML = "此姓名無人使用" };
         /*namehelp.innerHTML = `${data}`;*/
         })
 
@@ -69,10 +75,27 @@
         xhr.send(formdata);
     })
 
+    //送出表單
     btnstart.addEventListener('click', (evt) => {
         evt.preventDefault();
 
+
         const formdata = new FormData(document.userInfo);
+
+        //透過 fetch() 上傳圖檔
+        fetch('@Url.Content("~/api/index")', {
+            method="POST",
+            body=formdata
+        })
+            .then(response => response.text())
+            .then(data => divInfo.innerHTML = data);
+
+
+
+
+
+        @*//透過 XMLHttpRequest 上傳圖檔
+        //FormData 
         //step1
         const xhr = new XMLHttpRequest();
 
@@ -81,12 +104,17 @@
             const data = xhr.responseText;
             //顯示資料
             divInfo.innerHTML = `<h3>${data}</h3>`;
-        })      
+        })
 
 
         //step2
         xhr.open("post", `@Url.Content("~/api/index")`);
-        xhr.send(formdata);
+        xhr.send(formdata);*@
+
+
+        
+
+
 
     })
 
